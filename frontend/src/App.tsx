@@ -4,6 +4,9 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Header from "./components/Header";
 import { useState } from "react";
+import axios from "axios";
+import Loading from "./components/Loading";
+import QRCodePanel from "./components/QRCodePanel";
 
 type AppState =
   | "initial"
@@ -12,24 +15,32 @@ type AppState =
   | "auth_pending"
   | "auth_successful";
 
+const API_URL = "http://localhost:5000/api";
+
 function App() {
   const [appState, setAppState] = useState<AppState>("initial");
+  const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState<string>("sign-up");
+  const [QRCode, setQRCode] = useState("");
 
-  function onSignUpSubmit(e, username) {
-    e.preventDefault()
+  async function onSignUpSubmit(e, username) {
+    e.preventDefault();
     setAppState("registration_pending");
-
+    setLoading(true);
+    const response = await axios.post(`${API_URL}/sign-up`, { username });
+    setQRCode(response.data.qrCode);
+    setLoading(false);
   }
 
-  function onSignInSubmit(e, username) {
-    e.preventDefault()
+  async function onSignInSubmit(e, username) {
+    e.preventDefault();
     setAppState("auth_pending");
 
+    const response = await axios.post(`${API_URL}/sign-in`, { username });
   }
 
   return (
-    <Container className={styles.baseContainer}>
+    <Container className={`${styles.baseContainer} py-5`}>
       <Row className="justify-content-center align-items-center">
         <Col className={`${styles.centeredContainer}`}>
           <Header />
@@ -45,14 +56,20 @@ function App() {
                 title="Sign Up"
                 disabled={appState !== "initial" && tab !== "sign-up"}
               >
-                <SignUp onSubmit={onSignUpSubmit} />
+                {loading ? (
+                  <Loading />
+                ) : appState === "registration_pending" ? (
+                  <QRCodePanel qr={QRCode} />
+                ) : (
+                  <SignUp onSubmit={onSignUpSubmit} />
+                )}
               </Tab>
               <Tab
                 eventKey="sign-in"
                 title="Sign In"
                 disabled={appState !== "initial" && tab !== "sign-in"}
               >
-                <SignIn onSubmit={onSignInSubmit} />
+                {loading ? <Loading /> : <SignIn onSubmit={onSignInSubmit} />}
               </Tab>
             </Tabs>
           </div>
