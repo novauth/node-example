@@ -1,0 +1,39 @@
+{
+  "name": "@novauth/node-example",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Example Node.js application with NovAuth push authentication",
+  "keywords": [
+    "authentication",
+    "security",
+    "node.js"
+  ],
+  "author": {
+    "name": "Matteo Agnoletto",
+    "email": "info@epmatt.com",
+    "url": "https://epmatt.com"
+  },
+  "homepage": "https://github.com/novauth/node-example/tree/main/packages/sdk-node#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/novauth/node-example.git",
+    "baseUrl": "https://github.com/novauth/node-example"
+  },
+  "scripts": {
+    "build": "bash build.sh",
+    "install-prod": "bash install-prod.sh",
+    "heroku-prebuild": "npm run install-prod"
+  },
+  "bugs": {
+    "url": "https://github.com/novauth/node-example/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
