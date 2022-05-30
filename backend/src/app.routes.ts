@@ -10,8 +10,8 @@ import {
   SerializedAppAPIPairingResultRequest,
   AppAPIPushAuthenticationResultRequest,
 } from "@novauth/sdk-node";
-import { Operation } from "@novauth/common";
 import { io } from "./index.js";
+import { SerializedPairing } from "@novauth/sdk-node/lib/pairing/Pairing";
 
 console.log(process.env.NOVAUTH_APP_ORIGIN);
 
@@ -58,7 +58,7 @@ router.post(
     const user = await UserModel.findOne().byUsername(req.body.username);
     if (user !== null) {
       // retrieve pairing data
-      const pairing: Pairing = JSON.parse(user.pairing);
+      const pairing: SerializedPairing = JSON.parse(user.pairing);
       // start a pairing authentication
       const intent = await novauth.pushAuthenticationIntent(pairing);
       // store the push authentication operation in the db for later use
@@ -127,6 +127,8 @@ router.put(
             const parsedOperation: PairingOperation = JSON.parse(
               operation.json
             );
+            console.log(parsedOperation);
+            console.log(req.body.data);
             // verify the pairing with the credentials received from the client
             const pairing = await novauth.pairingVerify(
               parsedOperation,
