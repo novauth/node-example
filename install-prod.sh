@@ -1,7 +1,6 @@
 #!/bin/bash
 
-if [[ $NODE_ENV == "production" ]]
-then
-    npm --prefix frontend install;
-    npm --prefix backend install;
-fi
+npm --prefix frontend install;
+npm --prefix frontend install --only=dev;
+npm --prefix backend install;
+npm --prefix backend install --only=dev;

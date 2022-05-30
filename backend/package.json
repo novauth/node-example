@@ -36,7 +36,7 @@
     "url": "https://github.com/novauth/node-example/issues"
   },
   "dependencies": {
-    "@novauth/sdk-node": "^0.1.2",
+    "@novauth/sdk-node": "^0.1.5",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",

@@ -10,7 +10,7 @@ app.use(
 );
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: false }));
-if (process.env.NODE_ENV === "production")
+if (process.env.NODE_ENV === "PRODUCTION")
   app.use("/", express.static("../frontend/build"));
 
 app.use("/api", indexRouter);

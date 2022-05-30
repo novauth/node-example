@@ -1,7 +1,16 @@
 import express from "express";
-import NovAuthSDK, { Pairing } from "@novauth/sdk-node";
+import NovAuthSDK, {
+  Pairing,
+  PairingOperation,
+  PushAuthenticationOperation,
+} from "@novauth/sdk-node";
 import UserModel from "./models/users.model.js";
 import OperationModel from "./models/operations.model.js";
+import {
+  AppAPIPairingResultRequest,
+  AppAPIPushAuthenticationResultRequest,
+} from "@novauth/sdk-node";
+import { Operation } from "@novauth/common";
 
 console.log(process.env.NOVAUTH_APP_ORIGIN);
 
@@ -93,12 +102,72 @@ router.post(
 
 router.post(
   "/webhook",
-  function (
-    req: express.Request,
+  async function (
+    req: express.Request<
+      any,
+      any,
+      AppAPIPairingResultRequest | AppAPIPushAuthenticationResultRequest
+    >,
     res: express.Response,
     next: express.NextFunction
   ) {
-    //TODO: implement webhook
+    switch (req.body.type) {
+      // pairing result
+      case "pair_result": {
+        // retrieve operation from db
+        const operation = await OperationModel.findOne({
+          id: req.body.data.operationID,
+        });
+        if (operation !== null) {
+          const parsedOperation: PairingOperation = JSON.parse(operation.json);
+          // verify the pairing with the credentials received from the client
+          const pairing = await novauth.pairingVerify(
+            parsedOperation,
+            req.body.data
+          );
+          // delete the operation
+          await OperationModel.findOneAndDelete({
+            id: req.body.data.operationID,
+          });
+          // update the pairing associated with the user
+          await UserModel.findOneAndUpdate(
+            {
+              username: parsedOperation.data.userId,
+            },
+            { $set: { pairing } }
+          );
+          return res.status(200).json({});
+        } else return res.status(400).json({ message: "Invalid Operation ID" });
+      }
+      // push authentication result
+      case "push_authentication_result": {
+        const operation = await OperationModel.findOne({
+          id: req.body.data.operationId,
+        });
+        if (operation !== null) {
+          const parsedOperation: PushAuthenticationOperation = JSON.parse(
+            operation.json
+          );
+          // verify the push auth with the credentials received from the client
+          const pairing = await novauth.pushAuthenticationVerify(
+            parsedOperation,
+            req.body.data
+          );
+          // delete the operation
+          await OperationModel.findOneAndDelete({
+            id: req.body.data.operationId,
+          });
+          // update the pairing associated with the user
+          await UserModel.findOneAndUpdate(
+            {
+              username: parsedOperation.data.pairing.userID,
+            },
+            { $set: { pairing } }
+          );
+          return res.status(200).json({});
+        } else return res.status(400).json({ message: "Invalid Operation ID" });
+      }
+    }
   }
 );
 export default router;
