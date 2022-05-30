@@ -24,7 +24,7 @@ const novauth = new NovAuthSDK(String(process.env.NOVAUTH_TOKEN), {
     origin: String(process.env.NOVAUTH_APP_ORIGIN),
     /* eg. demo-novauth.herokuapp.com */
     domain: String(process.env.NOVAUTH_APP_DOMAIN),
-    webhook: "/webhook",
+    webhook: "/api/webhook",
   },
   /* Type of authentication mechanism.
   "device" requires the authenticator app to use a verification method embedded in the user's device
@@ -102,7 +102,7 @@ router.post(
   }
 );
 
-router.post(
+router.put(
   "/webhook",
   async function (
     req: express.Request<
