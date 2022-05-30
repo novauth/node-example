@@ -116,30 +116,37 @@ router.put(
     switch (req.body.type) {
       // pairing result
       case "pair_result": {
-        // retrieve operation from db
-        const operation = await OperationModel.findOne({
-          id: req.body.data.operationID,
-        });
-        if (operation !== null) {
-          const parsedOperation: PairingOperation = JSON.parse(operation.json);
-          // verify the pairing with the credentials received from the client
-          const pairing = await novauth.pairingVerify(
-            parsedOperation,
-            req.body.data
-          );
-          // delete the operation
-          await OperationModel.findOneAndDelete({
+        try {
+          // retrieve operation from db
+          const operation = await OperationModel.findOne({
             id: req.body.data.operationID,
           });
-          // update the pairing associated with the user
-          await UserModel.findOneAndUpdate(
-            {
-              username: parsedOperation.data.userId,
-            },
-            { $set: { pairing } }
-          );
-          return res.status(200).json({});
-        } else return res.status(400).json({ message: "Invalid Operation ID" });
+          if (operation !== null) {
+            const parsedOperation: PairingOperation = JSON.parse(
+              operation.json
+            );
+            // verify the pairing with the credentials received from the client
+            const pairing = await novauth.pairingVerify(
+              parsedOperation,
+              req.body.data
+            );
+            // delete the operation
+            await OperationModel.findOneAndDelete({
+              id: req.body.data.operationID,
+            });
+            // update the pairing associated with the user
+            await UserModel.findOneAndUpdate(
+              {
+                username: parsedOperation.data.userId,
+              },
+              { $set: { pairing } }
+            );
+            return res.status(200).json({});
+          } else
+            return res.status(400).json({ message: "Invalid Operation ID" });
+        } catch (error) {
+          console.log(error);
+        }
       }
       // push authentication result
       case "push_authentication_result": {
