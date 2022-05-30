@@ -7,7 +7,7 @@ import NovAuthSDK, {
 import UserModel from "./models/users.model.js";
 import OperationModel from "./models/operations.model.js";
 import {
-  AppAPIPairingResultRequest,
+  SerializedAppAPIPairingResultRequest,
   AppAPIPushAuthenticationResultRequest,
 } from "@novauth/sdk-node";
 import { Operation } from "@novauth/common";
@@ -109,7 +109,8 @@ router.put(
     req: express.Request<
       any,
       any,
-      AppAPIPairingResultRequest | AppAPIPushAuthenticationResultRequest
+      | SerializedAppAPIPairingResultRequest
+      | AppAPIPushAuthenticationResultRequest
     >,
     res: express.Response,
     next: express.NextFunction
