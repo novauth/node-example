@@ -41,10 +41,10 @@
     fido2-lib "^3.1.7"
     uuid "^8.3.2"
 
-"@novauth/sdk-node@^0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@novauth/sdk-node/-/sdk-node-0.1.13.tgz#477ea60176ee2604abf010d566aa900e46921785"
-  integrity sha512-dHMYUOIoSJOMtnlT87PdJNJNGEWU0yGf5GpXXjJk3cNP/L0CEwRAo+pbWpFVDfmzeSHMVUzUvdrBi5Pq/TaBJQ==
+"@novauth/sdk-node@^0.1.14":
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@novauth/sdk-node/-/sdk-node-0.1.14.tgz#b3bfbe8c76dd9ecdd588d6bdff520b47af57e1b4"
+  integrity sha512-f/B6trC0uPvlhK2lHlS/Q59FAzEh/m/rmM3mUgttKDcKPmr5E3hJvEMZdFeAWdhCPaLDQoKe0dWf9I7UmC4I8A==
   dependencies:
     "@novauth/common" "^0.1.13"
     axios "^0.27.2"
