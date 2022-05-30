@@ -22,6 +22,8 @@ const novauth = new NovAuthSDK(String(process.env.NOVAUTH_TOKEN), {
     name: "NovAuth Demo",
     /* eg. https://demo-novauth.herokuapp.com */
     origin: String(process.env.NOVAUTH_APP_ORIGIN),
+    /* eg. demo-novauth.herokuapp.com */
+    domain: String(process.env.NOVAUTH_APP_DOMAIN),
     webhook: "/webhook",
   },
   /* Type of authentication mechanism.
