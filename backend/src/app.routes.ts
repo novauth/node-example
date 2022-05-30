@@ -147,6 +147,7 @@ router.put(
         } catch (error) {
           console.log(error);
         }
+        break;
       }
       // push authentication result
       case "push_authentication_result": {
