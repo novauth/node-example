@@ -32,21 +32,21 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@novauth/common@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@novauth/common/-/common-0.1.6.tgz#4065d07ea3c75d6d454e627846a9037e808b9f98"
-  integrity sha512-Vclp0RN3/90TjUdOsOD4EmjkHaC25L6tlS0wQVnSeWNXcPDGRrQowfVzeRQbg4HbA+z3FxYfZPtRk9eKQkC7Xg==
+"@novauth/common@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@novauth/common/-/common-0.1.8.tgz#1e85755b0651f175e17b14352bda453ebf9bf5f9"
+  integrity sha512-Md2FWYtkrFmW64l3dcj6hnq+kDYhqY+mD+d7TTfY1zetNSiOVN7uzS+CHuuFGkYoelWhmqxAjWt1bIiIXR412g==
   dependencies:
     base64url "^3.0.1"
     fido2-lib "^3.1.7"
     uuid "^8.3.2"
 
-"@novauth/sdk-node@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@novauth/sdk-node/-/sdk-node-0.1.7.tgz#2372244627ac06e1b87a7316181f35641acf1457"
-  integrity sha512-H6pvJkf91KGCtTn4NlX9oUAp9N2D8D6iGjGqpaLAW2po9eNpNjUpWnhtjNL+XPOXjb16wP0cwoim9ok+c0d2Jg==
+"@novauth/sdk-node@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@novauth/sdk-node/-/sdk-node-0.1.8.tgz#84cad2bcc8954bdc105e25d63ccd1e0f2577b86c"
+  integrity sha512-5OPWmt65oKRSdZ8cWGT08THszrIz9gJJMDtNOhdKQ+e2Tmrpm8YJQ2Ba/1a3F+8Yvs3grY8l/32v4mqYIfG2GQ==
   dependencies:
-    "@novauth/common" "^0.1.6"
+    "@novauth/common" "^0.1.8"
     axios "^0.27.2"
     fido2-lib "^3.1.5"
     qrcode "^1.5.0"
