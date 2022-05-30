@@ -12,7 +12,7 @@ app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: false }));
 if (process.env.NODE_ENV === "production")
   app.use("/", express.static("../frontend/build"));
-
+  app.use("/.well-known/assetlinks.json", express.static("public/assetlinks.json"));
 app.use("/api", indexRouter);
 
 app.use(
