@@ -2,6 +2,6 @@
 
 if [[ $NODE_ENV == "production" ]]
 then
-    yarn --cwd frontend install;
-    yarn --cwd backend install;
+    npm --prefix frontend install;
+    npm --prefix backend install;
 fi
