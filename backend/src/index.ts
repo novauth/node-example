@@ -1,15 +1,32 @@
 /* eslint-disable no-fallthrough */
 
-import './init.js'
+import "./init.js";
 /**
  * Module dependencies.
  */
 import app from "./app.js";
 import http from "http";
 import mongoose from "mongoose";
+import { Server } from "socket.io";
 
 /* Create HTTP server. */
 const server = http.createServer(app);
+
+const io = new Server(server);
+
+io.on("connection", async (socket) => {
+  // socket is connected
+  socket.data = {};
+  // join a private room identified by the username
+  socket.on("join", async (username) => {
+    console.log("user disconnected");
+    await socket.join(username);
+  });
+  console.log("a user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
 /* Get port from environment and store in Express. */
 const port = normalizePort(
@@ -100,3 +117,5 @@ function onListening(): void {
 
 /* just call the server init function and ignore the returned promise */
 main().finally(() => {});
+
+export { io };

@@ -11,6 +11,7 @@ import {
   AppAPIPushAuthenticationResultRequest,
 } from "@novauth/sdk-node";
 import { Operation } from "@novauth/common";
+import { io } from "./index.js";
 
 console.log(process.env.NOVAUTH_APP_ORIGIN);
 
@@ -135,12 +136,16 @@ router.put(
               id: req.body.data.operationID,
             });
             // update the pairing associated with the user
-            await UserModel.findOneAndUpdate(
+            const user = await UserModel.findOneAndUpdate(
               {
-                username: parsedOperation.data.userId,
+                id: parsedOperation.data.userId,
               },
               { $set: { pairing } }
             );
+            // notify the browser that the pairing was successful
+            if (user !== null)
+              await io.to(user?.username).emit("pairing_verified");
+            // notify the authenticator app about the successful pairing
             return res.status(200).json({});
           } else
             return res.status(400).json({ message: "Invalid Operation ID" });
