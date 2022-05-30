@@ -15,7 +15,7 @@ type AppState =
   | "auth_pending"
   | "auth_successful";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = process.env.API_URL;
 
 function App() {
   const [appState, setAppState] = useState<AppState>("initial");
